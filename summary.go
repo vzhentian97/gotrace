@@ -11,14 +11,12 @@ import (
 )
 
 func configureSummary(t *tracer.Tracer, w io.Writer, sortKey string) {
-
 	tracker := &tracker{
 		counts:    make(map[string]int),
 		errors:    make(map[string]int),
 		durations: make(map[string]time.Duration),
 		starts:    make(map[string]time.Time),
 	}
-
 	t.SetSyscallEnterHandler(tracker.recordEnter)
 	t.SetSyscallExitHandler(tracker.recordExit)
 	t.SetDetachHandler(func(i int) {
@@ -50,7 +48,6 @@ func (t *tracker) recordExit(s *tracer.Syscall) {
 }
 
 func (t *tracker) print(w io.Writer, sortKey string) {
-
 	tab := table.New(w)
 	tab.SetRowLines(false)
 	tab.AddHeaders("time %", "seconds", "usecs/call", "count", "errors", "syscall")

@@ -7,6 +7,9 @@ import (
 	"os/signal"
 	"runtime"
 	"syscall"
+	"time"
+
+	"golang.org/x/sys/unix"
 )
 
 type Tracer struct {
@@ -59,6 +62,10 @@ func (t *Tracer) SetSyscallExitHandler(handler func(*Syscall)) {
 }
 
 func (t *Tracer) SetSyscallEnterHandler(handler func(*Syscall)) {
+	// t.handlers.syscallEnter = func(s *Syscall) {
+	// 	time.Sleep(time.Second)
+	// 	handler(s)
+	// }
 	t.handlers.syscallEnter = handler
 }
 
@@ -128,7 +135,6 @@ func (t *Tracer) Start() error {
 	go func() {
 		for sig := range signalChan {
 			t.receivedSignal = sig.(syscall.Signal)
-			_ = syscall.Kill(t.pid, syscall.SIGSTOP)
 		}
 	}()
 
@@ -237,6 +243,10 @@ func (t *Tracer) waitForSyscall() error {
 			t.handlers.syscallExit(call)
 		}
 	} else if t.handlers.syscallEnter != nil {
+		switch call.number {
+		case unix.SYS_WRITE:
+			time.Sleep(50 * time.Millisecond)
+		}
 		t.handlers.syscallEnter(call)
 	}
 	t.lastCall = call
