@@ -7,7 +7,6 @@ import (
 )
 
 func decodeStruct(memory []byte, target interface{}) error {
-
 	sType := reflect.TypeOf(target)
 	if sType.Kind() != reflect.Ptr {
 		return errors.New("target must be a pointer")
@@ -40,7 +39,6 @@ func decodeStruct(memory []byte, target interface{}) error {
 }
 
 func decodeAnonymous(target reflect.Value, raw []byte) error {
-
 	if target.Kind() == reflect.Ptr {
 		target.Set(reflect.New(target.Type().Elem()))
 		target = target.Elem()
@@ -83,6 +81,7 @@ func decodeUint(raw []byte) uint64 {
 	}
 	return output
 }
+
 func decodeInt(raw []byte) int64 {
 	var output int64
 	for i := 0; i < len(raw); i++ {

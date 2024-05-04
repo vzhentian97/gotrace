@@ -39,7 +39,6 @@ func init() {
 }
 
 func convertSigInfo(u *unix.Siginfo, pid int) *Object {
-
 	signo := Arg{
 		name: "signo",
 		t:    ArgTypeInt,

@@ -4,6 +4,7 @@ package annotation
 #include <linux/shm.h>
 */
 import "C"
+
 import (
 	"strings"
 

@@ -32,7 +32,6 @@ type shmidds struct {
 
 func init() {
 	registerTypeHandler(argTypeSHMIDDS, func(arg *Arg, metadata ArgMetadata, raw, next, prev, ret uintptr, pid int) error {
-
 		if raw > 0 {
 
 			// read the raw C struct from the process memory
@@ -57,7 +56,6 @@ func init() {
 }
 
 func convertSHMIDDS(ds *shmidds) *Object {
-
 	var permProps []Arg
 
 	permProps = append(permProps, Arg{

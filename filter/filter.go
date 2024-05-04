@@ -56,7 +56,6 @@ func NewFilter() *Filter {
 }
 
 func (f *Filter) Match(call *tracer.Syscall, exit bool) bool {
-
 	if len(f.allowNames) > 0 {
 		var match bool
 		for _, name := range f.allowNames {

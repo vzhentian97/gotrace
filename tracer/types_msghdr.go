@@ -29,7 +29,6 @@ type mmsghdr struct {
 
 func init() {
 	registerTypeHandler(argTypeMsghdr, func(arg *Arg, metadata ArgMetadata, raw, next, prev, ret uintptr, pid int) error {
-
 		if raw > 0 {
 			rawVal, err := readSize(pid, raw, unsafe.Sizeof(msghdr{}))
 			if err != nil {
@@ -71,7 +70,6 @@ func init() {
 }
 
 func convertMMsghdrs(mmsghdrs []mmsghdr, pid int) []Arg {
-
 	var args []Arg
 
 	for _, hdr := range mmsghdrs {
@@ -104,7 +102,6 @@ func convertMMsghdrs(mmsghdrs []mmsghdr, pid int) []Arg {
 }
 
 func convertMsgHdr(hdr *msghdr, pid int) (*Object, error) {
-
 	rawFamily, err := readSize(pid, hdr.Name, unsafe.Sizeof(syscall.RawSockaddrInet4{}.Family))
 	if err != nil {
 		return nil, err
@@ -178,7 +175,6 @@ func convertMsgHdr(hdr *msghdr, pid int) (*Object, error) {
 }
 
 func convertCmsghdr(control unix.Cmsghdr, pid int) *Object {
-
 	level := Arg{
 		name: "level",
 		t:    ArgTypeInt,

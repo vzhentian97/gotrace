@@ -14,7 +14,6 @@ type ioevent struct {
 
 func init() {
 	registerTypeHandler(argTypeIoEvents, func(arg *Arg, metadata ArgMetadata, raw, next, prev, ret uintptr, pid int) error {
-
 		if raw > 0 {
 
 			var events []Arg
@@ -45,7 +44,6 @@ func init() {
 		return nil
 	})
 	registerTypeHandler(argTypeIoEvent, func(arg *Arg, metadata ArgMetadata, raw, next, prev, ret uintptr, pid int) error {
-
 		if raw > 0 {
 
 			// read the raw C struct from the process memory

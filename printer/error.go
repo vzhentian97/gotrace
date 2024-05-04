@@ -173,7 +173,6 @@ var errors = map[int]string{
 }
 
 func (p *Printer) printError(arg *tracer.Arg) {
-
 	code := -arg.Int()
 	if code == 0 {
 		p.PrintColour(ColourGreen, "0")

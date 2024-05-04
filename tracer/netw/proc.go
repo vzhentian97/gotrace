@@ -47,7 +47,6 @@ func parseBaseProtocol(protocol string) ([]Connection, error) {
 }
 
 func parseFile(protocol string) ([]Connection, error) {
-
 	file := netPath + protocol
 	data, err := os.ReadFile(file)
 	if err != nil {
@@ -74,7 +73,6 @@ func parseFile(protocol string) ([]Connection, error) {
 }
 
 func parseLine(line string) (*Connection, error) {
-
 	line = strings.TrimSpace(line)
 	fields := strings.Fields(line)
 
@@ -108,7 +106,6 @@ func parseLine(line string) (*Connection, error) {
 }
 
 func parseIPAndPortFromHex(hex string) (net.IP, int, error) {
-
 	rawip, rawport, found := strings.Cut(hex, ":")
 	if !found {
 		return nil, 0, fmt.Errorf("invalid hex '%s'", hex)

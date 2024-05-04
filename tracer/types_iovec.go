@@ -45,7 +45,6 @@ func convertIovecs(vecs []iovec, pid int) ([]Arg, error) {
 }
 
 func convertIovec(vec iovec, pid int) (*Arg, error) {
-
 	base, err := readSize(pid, vec.Base, uintptr(vec.Len))
 	if err != nil {
 		return nil, err

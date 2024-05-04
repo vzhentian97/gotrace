@@ -13,9 +13,7 @@ import (
 )
 
 func AnnotateFd(arg Arg, pid int) {
-
 	if path, err := os.Readlink(fmt.Sprintf("/proc/%d/fd/%d", pid, arg.Raw())); err == nil {
-
 		switch {
 		case strings.HasPrefix(path, "socket:["):
 			fd := strings.TrimPrefix(path, "socket:[")

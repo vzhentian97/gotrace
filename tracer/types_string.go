@@ -12,7 +12,6 @@ import (
 
 func init() {
 	registerTypeHandler(argTypeStringArray, func(arg *Arg, metadata ArgMetadata, raw, next, prev, ret uintptr, pid int) error {
-
 		var items []Arg
 		var offset uintptr
 		size := unsafe.Sizeof(uintptr(0))

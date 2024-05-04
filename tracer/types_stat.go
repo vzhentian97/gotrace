@@ -116,7 +116,6 @@ func convertStat(stat *syscall.Stat_t) *Object {
 }
 
 func permModeToString(mode uint32) string {
-
 	flags := map[uint32]string{
 		unix.S_IFBLK:  "S_IFBLK",
 		unix.S_IFCHR:  "S_IFCHR",
@@ -137,7 +136,7 @@ func permModeToString(mode uint32) string {
 		}
 	}
 
-	perm := fmt.Sprintf("%04o", int(mode)&0777)
+	perm := fmt.Sprintf("%04o", int(mode)&0o777)
 
 	joins = append(joins, perm)
 

@@ -21,7 +21,6 @@ type iocb struct {
 
 func init() {
 	registerTypeHandler(argTypeIoCB, func(arg *Arg, metadata ArgMetadata, raw, next, prev, ret uintptr, pid int) error {
-
 		if raw > 0 {
 
 			// read the raw C struct from the process memory

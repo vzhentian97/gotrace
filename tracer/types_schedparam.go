@@ -10,7 +10,6 @@ type schedParam struct {
 
 func init() {
 	registerTypeHandler(argTypeSchedParam, func(arg *Arg, metadata ArgMetadata, raw, next, prev, ret uintptr, pid int) error {
-
 		if raw > 0 {
 			rawVal, err := readSize(pid, raw, unsafe.Sizeof(schedParam{}))
 			if err != nil {

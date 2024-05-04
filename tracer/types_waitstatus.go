@@ -8,7 +8,6 @@ import (
 
 func init() {
 	registerTypeHandler(argTypeWaitStatus, func(arg *Arg, metadata ArgMetadata, raw, next, prev, ret uintptr, pid int) error {
-
 		if raw > 0 {
 			// read the raw C struct from the process memory
 			bytes, err := readSize(pid, raw, unsafe.Sizeof(unix.WaitStatus(0)))

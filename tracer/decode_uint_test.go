@@ -3,7 +3,6 @@ package tracer
 import "testing"
 
 func Test_DecodeUint(t *testing.T) {
-
 	tests := []struct {
 		name string
 		data []byte
@@ -68,5 +67,4 @@ func Test_DecodeUint(t *testing.T) {
 			}
 		})
 	}
-
 }

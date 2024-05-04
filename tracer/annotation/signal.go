@@ -6,6 +6,7 @@ package annotation
 
 */
 import "C"
+
 import (
 	"fmt"
 	"strings"

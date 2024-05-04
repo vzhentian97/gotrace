@@ -1,7 +1,5 @@
 package annotation
 
-import "C"
-
 /*
    #include<errno.h>
 

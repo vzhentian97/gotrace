@@ -10,7 +10,6 @@ import (
 
 func init() {
 	registerTypeHandler(argTypeTimeval, func(arg *Arg, metadata ArgMetadata, raw, next, prev, ret uintptr, pid int) error {
-
 		if raw > 0 {
 			// read the raw C struct from the process memory
 			rawTimeVal, err := readSize(pid, raw, unsafe.Sizeof(unix.Timeval{}))
@@ -32,7 +31,6 @@ func init() {
 		return nil
 	})
 	registerTypeHandler(argTypeTimevalArray, func(arg *Arg, metadata ArgMetadata, raw, next, prev, ret uintptr, pid int) error {
-
 		if raw > 0 {
 
 			var size int

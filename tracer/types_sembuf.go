@@ -45,7 +45,6 @@ func convertSembufs(bufs []sembuf, pid int) ([]Arg, error) {
 }
 
 func convertSembuf(buf sembuf, pid int) Arg {
-
 	flagsArg := Arg{
 		name: "flags",
 		t:    ArgTypeInt,
@@ -73,5 +72,4 @@ func convertSembuf(buf sembuf, pid int) Arg {
 			},
 		},
 	}
-
 }

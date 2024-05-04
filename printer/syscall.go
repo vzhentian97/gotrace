@@ -11,7 +11,6 @@ func (p *Printer) PrintSyscallEnter(syscall *tracer.Syscall) {
 }
 
 func (p *Printer) printSyscallEnter(syscall *tracer.Syscall, overrideFilter bool) {
-
 	if !overrideFilter {
 		if p.filter != nil {
 			if !p.filter.Match(syscall, false) {
@@ -41,7 +40,6 @@ func (p *Printer) printSyscallEnter(syscall *tracer.Syscall, overrideFilter bool
 }
 
 func (p *Printer) PrintSyscallExit(syscall *tracer.Syscall) {
-
 	if p.filter != nil {
 		if !p.lastEntryMatchedFilter && !p.filter.Match(syscall, true) {
 			return
@@ -91,5 +89,4 @@ func (p *Printer) printRemainingArgs(syscall *tracer.Syscall, exit bool) {
 	if ((exit && len(remaining) > 0) || (!exit && p.argProgress == len(syscall.Args()))) && syscall.Complete() {
 		p.PrintDim(")")
 	}
-
 }

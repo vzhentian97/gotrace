@@ -9,8 +9,7 @@ import (
 )
 
 func Test_SyscallSupport(t *testing.T) {
-
-	for number, meta := range sysMap {
+	for number, meta := range syscallMap {
 		t.Run(fmt.Sprintf("syscall %d: %s", number, meta.Name), func(t *testing.T) {
 			checkSyscall(t, number, meta)
 		})

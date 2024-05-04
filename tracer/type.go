@@ -81,8 +81,10 @@ const (
 
 type typeHandler func(arg *Arg, metadata ArgMetadata, raw, next, prev, ret uintptr, pid int) error
 
-var typesRegistry = map[ArgType]typeHandler{}
-var typesRegistryMutex = sync.RWMutex{}
+var (
+	typesRegistry      = map[ArgType]typeHandler{}
+	typesRegistryMutex = sync.RWMutex{}
+)
 
 func registerTypeHandler(t ArgType, h typeHandler) {
 	typesRegistryMutex.Lock()

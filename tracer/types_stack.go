@@ -14,7 +14,6 @@ type stack struct {
 
 func init() {
 	registerTypeHandler(argTypeStack, func(arg *Arg, metadata ArgMetadata, raw, next, prev, ret uintptr, pid int) error {
-
 		if raw > 0 {
 			// read the raw C struct from the process memory
 			mem, err := readSize(pid, raw, unsafe.Sizeof(stack{}))
@@ -38,7 +37,6 @@ func init() {
 }
 
 func convertStack(st *stack) *Object {
-
 	flagsArg := Arg{
 		name: "flags",
 		t:    ArgTypeUnsignedInt,

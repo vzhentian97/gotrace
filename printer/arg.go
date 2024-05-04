@@ -7,7 +7,6 @@ import (
 )
 
 func (p *Printer) PrintArg(arg tracer.Arg, exit bool) {
-
 	var indent int
 	if p.multiline {
 		indent = indentSize
@@ -29,7 +28,6 @@ func (p *Printer) NewLine(indent int) {
 }
 
 func (p *Printer) PrintArgValue(arg *tracer.Arg, colour Colour, exit bool, propCount int, indent int) int {
-
 	if p.rawOutput {
 		p.PrintColour(colour, "0x%x", arg.Raw())
 		return propCount
@@ -51,7 +49,7 @@ func (p *Printer) PrintArgValue(arg *tracer.Arg, colour Colour, exit bool, propC
 			data = append(data[:p.maxStringLen], []byte("...")...)
 		}
 		p.PrintColour(colour, "%q", string(data))
-		//p.PrintDim(" @ 0x%x", arg.Raw())
+		// p.PrintDim(" @ 0x%x", arg.Raw())
 	case tracer.ArgTypeInt, tracer.ArgTypeLong, tracer.ArgTypeUnsignedInt, tracer.ArgTypeUnsignedLong, tracer.ArgTypeUnknown:
 		p.PrintColour(colour, "%d", arg.Int())
 	case tracer.ArgTypeErrorCode:

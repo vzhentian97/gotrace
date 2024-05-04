@@ -34,7 +34,7 @@ func (s *Syscall) Paths() []string {
 }
 
 func (s *Syscall) Name() string {
-	meta, ok := sysMap[s.number]
+	meta, ok := syscallMap[s.number]
 	if !ok {
 		return fmt.Sprintf("unknown_syscall_%d", s.number)
 	}
@@ -58,7 +58,7 @@ func (s *Syscall) Complete() bool {
 }
 
 func (s *Syscall) populate(exit bool) error {
-	meta, ok := sysMap[s.number]
+	meta, ok := syscallMap[s.number]
 	if !ok {
 		s.unknown = true
 	}

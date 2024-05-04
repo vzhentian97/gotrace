@@ -8,7 +8,6 @@ import (
 
 func init() {
 	registerTypeHandler(argTypeUstat, func(arg *Arg, metadata ArgMetadata, raw, next, prev, ret uintptr, pid int) error {
-
 		if raw > 0 {
 			rawVal, err := readSize(pid, raw, unsafe.Sizeof(unix.Ustat_t{}))
 			if err != nil {
@@ -34,7 +33,6 @@ func init() {
 }
 
 func convertUstat(stat *unix.Ustat_t, _ int) (*Object, error) {
-
 	var fname []byte
 	for _, b := range stat.Fname {
 		if b == 0 {

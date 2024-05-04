@@ -15,7 +15,6 @@ type openHow struct {
 
 func init() {
 	registerTypeHandler(argTypeOpenHow, func(arg *Arg, metadata ArgMetadata, raw, next, prev, ret uintptr, pid int) error {
-
 		if raw > 0 {
 			// read the raw C struct from the process memory
 			mem, err := readSize(pid, raw, unsafe.Sizeof(openHow{}))
@@ -39,7 +38,6 @@ func init() {
 }
 
 func convertOpenHow(how openHow) *Object {
-
 	flags := Arg{
 		name: "flags",
 		t:    ArgTypeUnsignedLong,

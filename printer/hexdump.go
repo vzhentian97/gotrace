@@ -5,7 +5,6 @@ import "strings"
 const dumpWidth = 16
 
 func (p *Printer) HexDump(addr uintptr, data []byte, indent int) {
-
 	var truncatedFrom uintptr
 	if p.maxHexDumpLen > 0 && len(data) > p.maxHexDumpLen {
 		truncatedFrom = uintptr(len(data))

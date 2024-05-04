@@ -36,7 +36,6 @@ func New(pid int) *Tracer {
 }
 
 func FromCommand(suppressOutput bool, command string, args ...string) (*Tracer, error) {
-
 	runtime.LockOSThread()
 
 	cmd := exec.Command(command, args...)
@@ -62,10 +61,6 @@ func (t *Tracer) SetSyscallExitHandler(handler func(*Syscall)) {
 }
 
 func (t *Tracer) SetSyscallEnterHandler(handler func(*Syscall)) {
-	// t.handlers.syscallEnter = func(s *Syscall) {
-	// 	time.Sleep(time.Second)
-	// 	handler(s)
-	// }
 	t.handlers.syscallEnter = handler
 }
 
@@ -86,7 +81,6 @@ func (t *Tracer) SetDetachHandler(handler func(int)) {
 }
 
 func (t *Tracer) Start() error {
-
 	runtime.LockOSThread()
 
 	if _, err := os.FindProcess(t.pid); err != nil {
@@ -99,7 +93,6 @@ func (t *Tracer) Start() error {
 		} else if err != nil {
 			return err
 		}
-
 	}
 
 	if t.handlers.attach != nil {
@@ -121,7 +114,6 @@ func (t *Tracer) Start() error {
 		defer func() {
 			_ = syscall.PtraceDetach(t.pid)
 			_, _ = syscall.Wait4(t.pid, &status, 0, nil)
-
 		}()
 	}
 
@@ -159,7 +151,6 @@ func (t *Tracer) loop() error {
 }
 
 func (t *Tracer) waitForSyscall() error {
-
 	// intercept syscall
 	err := syscall.PtraceSyscall(t.pid, t.lastSignal)
 	if err != nil {
@@ -244,7 +235,7 @@ func (t *Tracer) waitForSyscall() error {
 		}
 	} else if t.handlers.syscallEnter != nil {
 		switch call.number {
-		case unix.SYS_WRITE:
+		case unix.SYS_READ:
 			time.Sleep(50 * time.Millisecond)
 		}
 		t.handlers.syscallEnter(call)

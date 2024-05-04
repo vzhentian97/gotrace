@@ -46,7 +46,6 @@ func init() {
 }
 
 func readSize(pid int, addr uintptr, size uintptr) ([]byte, error) {
-
 	if size == 0 || size>>(bitSize-1) == 1 { // if negative for this arch
 		return nil, nil
 	}

@@ -12,7 +12,6 @@ type ldt struct {
 
 func init() {
 	registerTypeHandler(argTypeUserDesc, func(arg *Arg, metadata ArgMetadata, raw, next, prev, ret uintptr, pid int) error {
-
 		if raw > 0 {
 			rawVal, err := readSize(pid, raw, unsafe.Sizeof(ldt{}))
 			if err != nil {

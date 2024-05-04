@@ -72,7 +72,6 @@ It's essentially strace, in Go, with colours and pretty output.`,
 		}
 
 		p := printer.New(output)
-
 		p.SetUseColours(!flagDisableColours && flagOutputFile == "")
 		p.SetMaxStringLen(flagMaxStringLen)
 		p.SetMaxHexDumpLen(flagMaxHexDumpLen)
@@ -139,7 +138,6 @@ func init() {
 }
 
 func main() {
-
 	if err := rootCmd.Execute(); err != nil {
 		if err.Error() == "no such process" {
 			os.Exit(0)
