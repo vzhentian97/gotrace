@@ -5,9 +5,8 @@ import (
 	"os"
 
 	"github.com/liamg/grace/filter"
-
 	"github.com/liamg/grace/printer"
-
+	"github.com/liamg/grace/tampering"
 	"github.com/liamg/grace/tracer"
 	"github.com/spf13/cobra"
 )
@@ -24,6 +23,7 @@ var (
 	flagExtraNewLine        = false
 	flagMultiline           = false
 	flagFilter              = ""
+	flagTamper              = ""
 	flagAbsoluteTimestamps  = false
 	flagRelativeTimestamps  = false
 	flagSummarise           = false
@@ -89,6 +89,10 @@ It's essentially strace, in Go, with colours and pretty output.`,
 			p.SetMaxObjectProperties(flagMaxObjectProperties)
 		}
 
+		if _, err = tampering.Parse(flagTamper); err != nil {
+			return fmt.Errorf("failed to parse tampering rule: %s", err)
+		}
+
 		fltr, err := filter.Parse(flagFilter)
 		if err != nil {
 			return fmt.Errorf("failed to parse filter: %s", err)
@@ -102,8 +106,8 @@ It's essentially strace, in Go, with colours and pretty output.`,
 		} else {
 			t.SetSyscallEnterHandler(p.PrintSyscallEnter)
 			t.SetSyscallExitHandler(p.PrintSyscallExit)
-			t.SetSignalHandler(p.PrintSignal)
 			t.SetProcessExitHandler(p.PrintProcessExit)
+			t.SetSignalHandler(p.PrintSignal)
 			t.SetAttachHandler(p.PrintAttach)
 			t.SetDetachHandler(p.PrintDetach)
 		}
@@ -126,6 +130,7 @@ func init() {
 	rootCmd.Flags().BoolVarP(&flagExtraNewLine, "extra-newline", "n", flagExtraNewLine, "print an extra newline after each syscall to aid readability")
 	rootCmd.Flags().BoolVarP(&flagMultiline, "multiline", "m", flagMultiline, "print each syscall argument on a separate line to aid readability")
 	rootCmd.Flags().StringVarP(&flagFilter, "filter", "f", flagFilter, "Filter string to apply to output. The string should be formatted as a query string e.g. 'syscall=write&arg0=stdout'. The syscall parameter filters syscalls by name. The path parameter filters syscalls that reference a particular path. The ret parameter filters by return value (values for ret are assumed to be decimal unless prefixed with 0x). Each parameter can be specified multiple times with an OR match being appied to parameters of that type, and an AND match applied to parameters of a different type.")
+	rootCmd.Flags().StringVarP(&flagTamper, "tamper", "t", flagTamper, "Tamper rules")
 	rootCmd.Flags().BoolVarP(&flagAbsoluteTimestamps, "absolute-timestamps", "a", flagAbsoluteTimestamps, "print absolute timestamps for each event")
 	rootCmd.Flags().BoolVarP(&flagRelativeTimestamps, "relative-timestamps", "r", flagRelativeTimestamps, "print relative timestamps for each event")
 	rootCmd.Flags().BoolVarP(&flagSummarise, "summary", "S", flagSummarise, "summarise counts of all syscalls")

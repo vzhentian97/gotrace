@@ -7,9 +7,6 @@ import (
 	"os/signal"
 	"runtime"
 	"syscall"
-	"time"
-
-	"golang.org/x/sys/unix"
 )
 
 type Tracer struct {
@@ -159,8 +156,7 @@ func (t *Tracer) waitForSyscall() error {
 
 	// wait for a syscall
 	status := syscall.WaitStatus(0)
-	_, err = syscall.Wait4(t.pid, &status, 0, nil)
-	if err != nil {
+	if _, err = syscall.Wait4(t.pid, &status, 0, nil); err != nil {
 		return fmt.Errorf("wait failed: %w", err)
 	}
 
@@ -176,7 +172,6 @@ func (t *Tracer) waitForSyscall() error {
 	}
 
 	if status.StopSignal() != syscall.SIGTRAP|0x80 {
-
 		if t.handlers.signal != nil {
 			info, err := getSignalInfo(t.pid)
 			if err != nil {
@@ -184,7 +179,6 @@ func (t *Tracer) waitForSyscall() error {
 			}
 			t.handlers.signal(info)
 		}
-
 		if sig := status.StopSignal(); sig == syscall.SIGSTOP || sig == syscall.SIGTSTP || sig == syscall.SIGTTIN || sig == syscall.SIGTTOU {
 			if t.receivedSignal != 0 {
 				return nil
@@ -208,21 +202,18 @@ func (t *Tracer) waitForSyscall() error {
 	if err := syscall.PtraceGetRegs(t.pid, regs); err != nil {
 		return fmt.Errorf("failed to read registers: %w", err)
 	}
-
 	call := parseSyscall(regs)
-	call.pid = t.pid
-
 	if call.number == -1 {
 		return fmt.Errorf("expecting syscall but received -1 - did we miss a signal?")
 	}
+	call.pid = t.pid
 
 	if t.isExit && t.lastCall != nil {
-		if call.number == t.lastCall.number {
-			call.args = t.lastCall.args
-			call.paths = t.lastCall.paths
-		} else {
+		if call.number != t.lastCall.number {
 			return fmt.Errorf("syscall exit mismatch: %d != %d - this is likely a bug in grace due to an unprocessed signal", call.number, t.lastCall.number)
 		}
+		call.args = t.lastCall.args
+		call.paths = t.lastCall.paths
 	}
 
 	if err := call.populate(t.isExit); err != nil {
@@ -234,10 +225,6 @@ func (t *Tracer) waitForSyscall() error {
 			t.handlers.syscallExit(call)
 		}
 	} else if t.handlers.syscallEnter != nil {
-		switch call.number {
-		case unix.SYS_READ:
-			time.Sleep(50 * time.Millisecond)
-		}
 		t.handlers.syscallEnter(call)
 	}
 	t.lastCall = call

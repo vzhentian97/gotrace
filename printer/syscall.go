@@ -3,11 +3,13 @@ package printer
 import (
 	"fmt"
 
+	"github.com/liamg/grace/tampering"
 	"github.com/liamg/grace/tracer"
 )
 
 func (p *Printer) PrintSyscallEnter(syscall *tracer.Syscall) {
 	p.printSyscallEnter(syscall, false)
+	tampering.Delay(syscall)
 }
 
 func (p *Printer) printSyscallEnter(syscall *tracer.Syscall, overrideFilter bool) {
@@ -20,9 +22,7 @@ func (p *Printer) printSyscallEnter(syscall *tracer.Syscall, overrideFilter bool
 		}
 		p.lastEntryMatchedFilter = true
 	}
-
 	p.PrefixEvent()
-
 	p.colourIndex = 0
 	p.argProgress = 0
 

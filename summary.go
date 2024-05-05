@@ -68,9 +68,7 @@ func (t *tracker) print(w io.Writer, sortKey string) {
 	var rows []row
 
 	for name, count := range t.counts {
-
 		duration := t.durations[name]
-
 		percent := float64(duration) * 100 / float64(total)
 
 		var key int

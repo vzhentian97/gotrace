@@ -24,8 +24,9 @@ func AnnotateFd(arg Arg, pid int) {
 					return
 				}
 			}
+		default:
+			arg.SetAnnotation(path, false)
 		}
-		arg.SetAnnotation(path, false)
 	}
 
 	if int32(arg.Raw()) == unix.AT_FDCWD {
