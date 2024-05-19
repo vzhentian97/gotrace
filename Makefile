@@ -12,10 +12,9 @@ test: headers
 	CGO_ENABLED=1 CGO_CFLAGS="-I$$(pwd)/headers/include" go test ./tracer ./printer ./filter
 
 linux:
-	# sudo yum install kernel-devel-$(KERNEL_VERSION) kernel-headers-$(KERNEL_VERSION) -y
-	# cp -r /usr/src/kernels/$(uname -r) ./linux
-	sudo yum install kernel-devel kernel-headers -y
-	cp -r /usr/src/kernels/5.14.0-362.24.2.el9_3.x86_64 ./linux
+	sudo dnf install kernel-devel-$(KERNEL_VERSION) -y
+	cp -r /usr/src/kernels/$(KERNEL_VERSION) ./linux
+
 headers: linux
 	cd linux && make headers_install ARCH=x86_64 INSTALL_HDR_PATH=../headers
 

@@ -149,14 +149,13 @@ func (t *Tracer) loop() error {
 
 func (t *Tracer) waitForSyscall() error {
 	// intercept syscall
-	err := syscall.PtraceSyscall(t.pid, t.lastSignal)
-	if err != nil {
+	if err := syscall.PtraceSyscall(t.pid, t.lastSignal); err != nil {
 		return fmt.Errorf("could not intercept syscall: %w", err)
 	}
 
 	// wait for a syscall
 	status := syscall.WaitStatus(0)
-	if _, err = syscall.Wait4(t.pid, &status, 0, nil); err != nil {
+	if _, err := syscall.Wait4(t.pid, &status, 0, nil); err != nil {
 		return fmt.Errorf("wait failed: %w", err)
 	}
 
@@ -189,7 +188,7 @@ func (t *Tracer) waitForSyscall() error {
 				t.lastSignal = 0
 				return nil
 			}
-			if err = syscall.PtraceSyscall(t.pid, t.lastSignal); err != nil && err != syscall.ESRCH {
+			if err := syscall.PtraceSyscall(t.pid, t.lastSignal); err != nil && err != syscall.ESRCH {
 				return err
 			}
 			return nil

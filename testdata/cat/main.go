@@ -5,10 +5,7 @@ import (
 	"os"
 )
 
-func main() {
-	if len(os.Args) < 2 {
-		return
-	}
+func cat() {
 	r, err := os.ReadFile(os.Args[1])
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "read error: %v", err)
@@ -16,4 +13,11 @@ func main() {
 		return
 	}
 	fmt.Fprintf(os.Stdout, "%s", string(r))
+}
+
+func main() {
+	if len(os.Args) < 2 {
+		return
+	}
+	cat()
 }
